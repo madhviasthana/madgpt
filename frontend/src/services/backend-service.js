@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default class BackendService {
   constructor() {
-    this.apiUrl = "https://madgpt.themadhvi.com//api/chat";
+    this.apiUrl = "https://madgpt.themadhvi.com/api/chat";
     //this.apiUrl = "http://localhost:8000/api/chat";
   }
 
