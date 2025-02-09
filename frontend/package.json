@@ -1,0 +1,28 @@
+{
+  "name": "frontend2",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.12",
+    "@vueuse/core": "^12.5.0",
+    "axios": "^1.7.2",
+    "highlight.js": "^11.10.0",
+    "marked": "^13.0.2",
+    "quasar": "^2.16.6",
+    "vue": "^3.4.21",
+    "vue-markdown-render": "^2.2.1",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.7.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.77.8",
+    "vite": "^5.1.5"
+  }
+}
