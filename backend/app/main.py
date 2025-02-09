@@ -18,14 +18,14 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.messages import HumanMessage
 from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
-from app.youtube_api import YouTubeAPI
+from youtube_api import YouTubeAPI
 from langgraph.prebuilt import ToolNode,tools_condition
 from langchain.chains.summarize import load_summarize_chain
 from langgraph.graph import StateGraph, END, START
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.prompts import ChatPromptTemplate
-from app.udemy import search_udemy_coupons, get_udemy_from_fn_app
-from app.wp import create_udemy_page, upload_new_image
+from udemy import search_udemy_coupons, get_udemy_from_fn_app
+from wp import create_udemy_page, upload_new_image
 
 
 
