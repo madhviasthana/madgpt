@@ -1,0 +1,1 @@
+[Read About the MadGPT](https://www.canva.com/design/DAGiNHLS7xg/ZnGtCcesI_vBsNl898TM9w/view?utm_content=DAGiNHLS7xg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h84b9a0643f)
