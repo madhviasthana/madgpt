@@ -6,7 +6,7 @@
           <q-toolbar>
             <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
             <q-toolbar-title @click="gotohome" style="cursor: pointer"
-              >MadGPT</q-toolbar-title
+              >TextToDiagram</q-toolbar-title
             >
           </q-toolbar>
         </q-header>
@@ -34,30 +34,30 @@
             <div class="chat-area">
               <q-scroll-area class="fit" ref="chatScroll">
                 <div class="headtext" v-if="messages.length === 0">
-                  <h2 class="welcome-heading">Welcome to MadGPT</h2>
-                  <h5 class="subtitle">Ask your questions with Ease! 🚀</h5>
+                  <h2 class="welcome-heading">Welcome to TextToDiagram</h2>
+                  <h5 class="subtitle">Create any diagram with Ease! 🚀</h5>
 
                   <div class="welcome-msg">
                     <MessageBox
-                      text="Quiz me on ancient civilizations"
+                      text="Generate a decision tree for loan approval"
                       icon="school"
                       icon_color="blue"
                       @paste-message="pasteText"
                     />
                     <MessageBox
-                      text="Content calendar for TikTok"
+                      text="Show a timeline for a product development cycle"
                       icon="edit"
                       icon_color="yellow"
                       @paste-message="pasteText"
                     />
                     <MessageBox
-                      text="Activities to make friends in new city"
+                      text="Draw logic for Dkjistra Algorithm."
                       icon="lightbulb"
                       icon_color="orange"
                       @paste-message="pasteText"
                     />
                     <MessageBox
-                      text="Plan a relaxing day"
+                      text="Draw a flowchart for an online order process"
                       icon="flight"
                       icon_color="green"
                       @paste-message="pasteText"
@@ -65,7 +65,11 @@
                   </div>
                 </div>
 
-                <div v-for="(message, index) in messages" :key="index">
+                <div
+                  v-for="(message, index) in messages"
+                  :key="index"
+                  style="color: #1e1e2e; width: 100%"
+                >
                   <q-chat-message
                     v-if="message['type'] === 'user'"
                     name="me"
@@ -85,17 +89,16 @@
                     bg-color="grey-4"
                   >
                     <div
+                      v-if="message['message'].length > 0"
                       class="chat-text"
                       ref="codeContainer"
                       v-html="message['message']"
                     />
 
                     <!-- <q-spinner-dots size="2rem" /> -->
-                    <q-video
-                      v-if="message['videoLink'].length > 0"
-                      :src="message['videoLink'][0]"
-                      :ratio="4 / 1"
-                    />
+                    <div class="diagram" v-if="message['graph'].length > 0">
+                      <VueMermaidRender :content="message['graph']" />
+                    </div>
                   </q-chat-message>
                 </div>
                 <!-- avatar="https://geeksgod.com/wp-content/uploads/2021/05/Logopit_1603470318463-300x300.png"
@@ -166,6 +169,7 @@ import MessageBox from "../components/MessageBox.vue";
 import { useQuasar } from "quasar";
 import hljs from "highlight.js";
 import "highlight.js/styles/tomorrow-night-blue.css"; // Choose your preferred theme
+import { VueMermaidRender } from "vue-mermaid-render";
 
 export default {
   setup() {
@@ -183,7 +187,7 @@ export default {
     };
   },
 
-  components: { MessageBox },
+  components: { MessageBox, VueMermaidRender },
   mounted() {
     this.focusInput();
   },
@@ -322,9 +326,6 @@ export default {
       var text = this.message.trim();
       var chat_msg = text;
 
-      if (this.auth_required) {
-        chat_msg = "🔐🌀 SOME SUPER SECRET CODE ⏳🔐";
-      }
       this.message = "";
       if (text !== "") {
         var u_id = this.getUniqueId();
@@ -334,29 +335,25 @@ export default {
         setTimeout(() => {
           this.scrollToBottom();
         }, 200);
-        console.log(
-          this.llms[this.selected_model]["llm"],
-          this.llms[this.selected_model]["model_name"]
-        );
+
         try {
-          var response = await this.backend.getGptResponse(
+          var response = await this.backend.getTextToDiagramResponse(
             text,
-            u_id,
-            this.llms[this.selected_model]["llm"],
-            this.llms[this.selected_model]["model_name"]
+            u_id
           );
 
           if (response.status == 200) {
             console.log(response);
 
-            var html_msg = this.renderedMarkdown(response.data["response"]);
+            var html_msg = this.renderedMarkdown(
+              response.data["direct_response"]
+            );
             html_msg = this.modifyLinksToOpenInNewWindow(html_msg);
             this.messages.push({
               type: "gpt",
-              label: `MadGPT (${this.selected_model})`,
+              label: `TextToDiagram`,
               message: html_msg,
-              auth_required: response.data["auth_required"],
-              videoLink: this.extractAndConvertYouTubeLinksHTML(html_msg),
+              graph: response.data["graph"],
             });
 
             this.auth_required = response.data["auth_required"];
@@ -434,6 +431,9 @@ export default {
 </script>
 
 <style scoped>
+.diagram {
+  width: 80%;
+}
 .home-container {
   height: 100%;
   width: 100vw;
